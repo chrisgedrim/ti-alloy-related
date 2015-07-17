@@ -9,3 +9,7 @@
 # https://atom.io/docs/latest/advanced/keymaps
 'atom-workspace':
   'ctrl-alt-r': 'ti-alloy-related:openRelated'
+  # 'ctrl-alt-r-c': 'ti-alloy-related:openRelatedController'
+  # 'ctrl-alt-r-t': 'ti-alloy-related:openRelatedTest'
+  # 'ctrl-alt-r-s': 'ti-alloy-related:openRelatedStyle'
+  # 'ctrl-alt-r-v': 'ti-alloy-related:openRelatedView'

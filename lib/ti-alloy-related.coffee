@@ -1,31 +1,40 @@
+openFile = (uri) ->
+    atom.workspace.open(uri)
+
+running = false
+
 module.exports =
+  config:
+      testFilePath:
+          type: 'string'
+          default: ''
+
   activate: ->
-    atom.workspaceView.command "ti-alloy-related:openRelated", => @openRelated()
+      @disposable = atom.commands.add 'atom-text-editor', 'ti-alloy-related:openRelated', => @openRelated()
+
+  deactivate: ->
+      @disposable.dispose();
+      @disposable = null;
 
   openRelated: ->
-    editor = atom.workspace.getActiveEditor()
-    return unless editor?
+    return unless editor = atom.workspace.getActiveTextEditor()
 
-    previousActivePane = atom.workspace.getActivePane()
     uri = "#{editor.getPath()}"
+    testFilePath = atom.config.get 'ti-alloy-related.testFilePath'
 
-    if uri.indexOf('.js') > 0
-      view = uri.replace('/controllers/', '/views/')
-      view = view.replace('.js', '.xml')
-      style = uri.replace('/controllers/', '/styles/')
-      style = style.replace('.js', '.tss')
-    else if uri.indexOf('.xml') > 0
-      view = uri.replace('/views/', '/controllers/')
-      view = view.replace('.xml', '.js')
-      style = uri.replace('/views/', '/styles/')
-      style = style.replace('.xml', '.tss')
-    else if uri.indexOf('.tss') > 0
-      view = uri.replace('/styles/', '/views/')
-      view = view.replace('.tss', '.xml')
-      style = uri.replace('/styles/', '/controllers/')
-      style = style.replace('.tss', '.js')
-
-    atom.workspaceView.getActivePane().splitRight()
-    atom.workspace.open(view)
-    atom.workspaceView.getActivePane().splitDown()
-    atom.workspace.open(style)
+    if uri.match(/.*Spec\.js/)
+        openFile(uri.replace(testFilePath + 'controllers/', 'app/controllers/').replace('Spec.js', '.js'))
+        openFile(uri.replace(testFilePath + 'controllers/', 'app/styles/').replace('Spec.js', '.tss'))
+        openFile(uri.replace(testFilePath + 'controllers/', 'app/views/').replace('Spec.js', '.xml'))
+    else if uri.match(/.*\.js/)
+        openFile(uri.replace('app/controllers/', 'app/views/').replace('.js', '.xml'))
+        openFile(uri.replace('app/controllers/', 'app/styles/').replace('.js', '.tss'))
+        openFile(uri.replace('app/controllers/', testFilePath + 'controllers/').replace('.js', 'Spec.js'))
+    else if uri.match(/.*\.tss/)
+        openFile(uri.replace('app/styles/', 'app/controllers/').replace('.tss', '.js'))
+        openFile(uri.replace('app/styles/', 'app/views/').replace('.tss', '.xml'))
+        openFile(uri.replace('app/styles/', testFilePath + 'controllers/').replace('.tss', 'Spec.js'))
+    else if uri.match(/.*\.xml/)
+        openFile(uri.replace('app/views/', 'app/controllers/').replace('.xml', '.js'))
+        openFile(uri.replace('app/views/', 'app/styles/').replace('.xml', '.tss'))
+        openFile(uri.replace('app/views/', testFilePath + 'controllers/').replace('.xml', 'Spec.js'))

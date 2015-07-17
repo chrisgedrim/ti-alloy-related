@@ -1,14 +1,25 @@
-'menu': [
-  {
-      'label': 'Packages'
-      'submenu': [
+'menu': [{
+    'label': 'Packages'
+    'submenu': [
         'label': 'Titanium'
-        'submenu': [
-          {
+        'submenu': [{
             'label': 'Open related',
             'command': 'ti-alloy-related:openRelated'
-        }
-        ]
+        }, {
+            'label': 'Open related...',
+            'submenu': [{
+                'label': 'Controller (.js)',
+                'command': 'ti-alloy-related:openRelatedController'
+            }, {
+                'label': 'Style (.tss)',
+                'command': 'ti-alloy-related:openRelatedStyle'
+            }, {
+                'label': 'Test (Spec.js)',
+                'command': 'ti-alloy-related:openRelatedTest'
+            }, {
+                'label': 'View (.xml)',
+                'command': 'ti-alloy-related:openRelatedView'
+            }]
+        }]
     ]
-  }
-]
+}]

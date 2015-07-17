@@ -1,8 +1,8 @@
 {
   "name": "ti-alloy-related",
   "main": "./lib/ti-alloy-related",
-  "version": "0.8.0",
-  "description": "A quick way to open a controllers related View and TSS file for Ti Alloy Projects.",
+  "version": "0.9.0",
+  "description": "A quick way to open a controller's related View, TSS and Spec file for Ti Alloy Projects.",
   "activationCommands": {
     "atom-workspace": [
       "ti-alloy-related:openRelated"
